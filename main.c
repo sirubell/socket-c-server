@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <time.h>
+#include <sys/time.h>
 
 #include "server.h"
 #include "game.h"
