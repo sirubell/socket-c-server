@@ -16,6 +16,7 @@ typedef struct {
     pthread_mutex_t mutex;
 } StrWithMutex;
 
+void str_init(Str* str);
 void str_with_mutex_init(StrWithMutex* x);
 
 #endif
