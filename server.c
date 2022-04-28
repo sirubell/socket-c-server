@@ -12,6 +12,7 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <assert.h>
 
 #include "server.h"
 #include "game.h"
@@ -115,7 +116,7 @@ void* handel_client(void* arg)
 	int clientfd = *(int*)arg;
 	free(arg);
 
-	
+	assert(false && "handel_client not implemented yet");
 }
 
 void *get_in_addr(struct sockaddr *sa)
