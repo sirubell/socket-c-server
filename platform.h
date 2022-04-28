@@ -13,4 +13,15 @@ typedef struct {
     PlatformType type;
 } Platform;
 
+typedef struct NodePlatform NodePlatform;
+struct NodePlatform{
+    Platform p;
+    NodePlatform* next;
+    NodePlatform* prev;
+};
+
+struct LinkedListPlatform{
+    NodePlatform* head;
+} LinkedListPlatform;
+
 #endif

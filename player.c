@@ -1,4 +1,4 @@
-#include "linkedlist_player.h"
+#include "player.h"
 
 NodePlayer* _query_has(LinkedListPlayer* ll_player, int fd)
 {
