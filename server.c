@@ -13,6 +13,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 
+#include "server.h"
 #include "game.h"
 
 #define PORT "15470"  // the port users will be connecting to
