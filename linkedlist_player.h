@@ -3,15 +3,17 @@
 
 #include "player.h"
 
-typedef struct {
+typedef struct NodePlayer NodePlayer;
+struct NodePlayer{
     Player p;
     NodePlayer* next;
     NodePlayer* prev;
-} NodePlayer;
+};
 
-typedef struct {
+typedef struct LinkedListPlayer LinkedListPlayer;
+struct LinkedListPlayer{
     NodePlayer* head;
-} LinkedListPlayer;
+};
 
 NodePlayer* _query_has(LinkedListPlayer* ll_player, int fd);
 
