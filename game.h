@@ -2,8 +2,8 @@
 #define _GAME_H_
 
 #include "action.h"
-#include "linkedlist_player.h"
-#include "linkedlist_platform.h"
+#include "player.h"
+#include "platform.h"
 
 typedef enum {
     Starting,

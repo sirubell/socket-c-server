@@ -20,7 +20,7 @@ struct NodePlatform{
     NodePlatform* prev;
 };
 
-struct LinkedListPlatform{
+typedef struct {
     NodePlatform* head;
 } LinkedListPlatform;
 
