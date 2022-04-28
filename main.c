@@ -8,6 +8,8 @@
 #include "server.h"
 #include "game.h"
 
+int max(int a, int b);
+
 int main(void)
 {
     struct timeval stop, start;
@@ -35,4 +37,10 @@ int main(void)
     }
 
 	return 0;
+}
+
+int max(int a, int b)
+{
+    if (a > b) return a;
+    return b;
 }

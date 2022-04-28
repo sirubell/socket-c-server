@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "str.h"
 
 void str_init(Str* str)
