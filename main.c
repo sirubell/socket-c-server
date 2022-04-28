@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include <time.h>
 
 #include "server.h"
@@ -9,8 +10,8 @@
 int main(void)
 {
     struct timeval stop, start;
-    const useconds_t frame_time = (1.0f / 60) * 1000 * 1000;
-    useconds_t dt = 0;
+    const int frame_time = (1.0f / 60) * 1000 * 1000;
+    int dt = 0;
 
     game_init();
 
