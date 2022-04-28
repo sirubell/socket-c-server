@@ -1,26 +1,6 @@
 #include "action.h"
-#include "player.h"
-#include "platform.h"
-
-typedef struct {
-    Player p;
-    NodePlayer* next;
-    NodePlayer* prev;
-} NodePlayer;
-
-typedef struct {
-    NodePlayer* head;
-} LinkedListPlayer;
-
-typedef struct {
-    Platform p;
-    NodePlatform* next;
-    NodePlatform* prev;
-} NodePlatform;
-
-typedef struct {
-    NodePlatform* head;
-} LinkedListPlatform;
+#include "linkedlist_player.h"
+#include "linkedlist_platform.h"
 
 typedef enum {
     Starting,
@@ -39,6 +19,7 @@ typedef struct {
 void game_init(void);
 void handle_actions(void);
 void update_game(float time);
+NodePlayer* query_has(int fd);
 
 #ifdef _GAME_H_IMPLEMENTATION_
 
@@ -57,6 +38,10 @@ void handle_actions(void) {
 
 void update_game(float time) {
     assert(false && "update_game is not implemented yet");
+}
+
+NodePlayer* query_has(int fd) {
+    return _query_has(&game.ll_player, fd);
 }
 
 #endif
