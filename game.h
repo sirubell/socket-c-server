@@ -1,3 +1,6 @@
+#ifndef _GAME_H_
+#define _GAME_H_
+
 #include "action.h"
 #include "linkedlist_player.h"
 #include "linkedlist_platform.h"
@@ -20,3 +23,5 @@ void game_init(void);
 void handle_actions(void);
 void update_game(float time);
 NodePlayer* query_has(int fd);
+
+#endif

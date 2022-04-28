@@ -1,3 +1,6 @@
+#ifndef _ACTION_H_
+#define _ACTION_H_
+
 #include <stdatomic.h>
 #include <stdbool.h>
 
@@ -31,3 +34,5 @@ void action_queue_init(ActionQueue* aq);
 bool action_queue_has(ActionQueue* aq);
 Action action_queue_pop(ActionQueue* aq);
 void action_queue_push(ActionQueue* aq, Action a);
+
+#endif

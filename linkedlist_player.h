@@ -1,3 +1,6 @@
+#ifndef _LINKEDLIST_PLAYER_H_
+#define _LINKEDLIST_PLAYER_H_
+
 #include "player.h"
 
 typedef struct {
@@ -11,3 +14,5 @@ typedef struct {
 } LinkedListPlayer;
 
 NodePlayer* _query_has(LinkedListPlayer* ll_player, int fd);
+
+#endif

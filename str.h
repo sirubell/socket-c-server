@@ -1,3 +1,6 @@
+#ifndef _STR_H_
+#define _STR_H_
+
 #include <stdint.h>
 #include <pthread.h>
 
@@ -14,3 +17,5 @@ typedef struct {
 } StrWithMutex;
 
 void str_with_mutex_init(StrWithMutex* x);
+
+#endif

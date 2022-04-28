@@ -1,3 +1,6 @@
+#ifndef _LINKEDLIST_PLATFORM_H_
+#define _LINKEDLIST_PLATFORM_H_
+
 #include "platform.h"
 
 typedef struct {
@@ -9,3 +12,5 @@ typedef struct {
 typedef struct {
     NodePlatform* head;
 } LinkedListPlatform;
+
+#endif
