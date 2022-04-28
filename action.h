@@ -1,4 +1,5 @@
 #include <stdatomic.h>
+#include <stdbool.h>
 
 typedef enum {
     NoOp = 0,
@@ -13,7 +14,7 @@ typedef enum {
 } ActionType;
 
 typedef struct {
-    ActionType at;
+    ActionType type;
     int optint;
     void* optptr;
 } Action;
@@ -21,9 +22,12 @@ typedef struct {
 #define NUM_ACTION 1024
 
 typedef struct {
-    Action action[NUM_ACTION];
+    Action actions[NUM_ACTION];
     atomic_int head;
     atomic_int tail;
 } ActionQueue;
 
 void action_queue_init(ActionQueue* aq);
+bool action_queue_has(ActionQueue* aq);
+Action action_queue_pop(ActionQueue* aq);
+void action_queue_push(ActionQueue* aq, Action a);
