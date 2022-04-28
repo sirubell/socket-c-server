@@ -1,4 +1,5 @@
 #include <stdbool.h>
+
 #include "game.h"
 
 static Game game;
@@ -12,7 +13,31 @@ void game_init(void) {
 }
 
 void handle_actions(void) {
-    assert(false && "handle_actions is not implemented yet");
+    while (action_queue_has(&game.aq)) {
+        Action a = action_queue_pop(&game.aq);
+
+        switch (a.type) {
+            case NoOp: {
+                assert(false && "not reachable");
+            }
+
+            case CreatePlayer: {
+                
+            } break;
+            case DeletePlayer: {
+
+            } break;
+            case ChangePlayerDir: {
+
+            } break;
+            case CreatePlatform: {
+
+            } break;
+            case DeletePlatform: {
+
+            } break;
+        }
+    }
 }
 
 void update_game(float time) {
