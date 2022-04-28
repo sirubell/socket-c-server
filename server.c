@@ -22,7 +22,7 @@
 // get sockaddr, IPv4 or IPv6:
 void* get_in_addr(struct sockaddr *sa);
 void* _start_server(void* arg);
-void* handle_client(void* arg);
+void* handel_client(void* arg);
 
 void start_server(void)
 {
@@ -98,7 +98,7 @@ void* _start_server(void* arg)
 			continue;
 		}
 
-		inet_ntop(client_socket_addr.ss_family,
+		inet_ntop(client_addr.ss_family,
 			get_in_addr((struct sockaddr *)&client_addr),
 			s, sizeof(s));
 		printf("server: got connection from %s\n", s);
@@ -110,7 +110,7 @@ void* _start_server(void* arg)
 	}
 }
 
-void* handle_client(void* arg)
+void* handel_client(void* arg)
 {
 	int clientfd = *(int*)arg;
 	free(arg);
