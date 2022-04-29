@@ -159,10 +159,9 @@ void* handel_client(void* arg)
 		str_cat(&str, &environment);
 
 		printf("server: send: %.*s\n", (int)str.len, str.s);
-		if ((nbytes = send(socket, str.s, str.len, 0)) < 0) {
+		if ((nbytes = send(clientfd, str.s, str.len, 0)) < 0) {
 			break;
 		}
-		
 	}
 
 	if (node_player != NULL)
