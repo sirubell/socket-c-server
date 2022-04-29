@@ -86,10 +86,9 @@ void update_game(float time) {
     game.para.tick++;
     game.para.current_time += time;
 
-    if (game.para.current_time >= 20.0f)
-    {
+    if (game.para.current_time >= 20.0f) {
         game.state = Gaming;
-        // winner = String.Empty;
+        str_init(&game.para.winner);
     }
 
     player_down();
