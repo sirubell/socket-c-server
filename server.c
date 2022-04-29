@@ -121,7 +121,7 @@ void* handel_client(void* arg)
 	NodePlayer* node_player = NULL;
 	Action create_player = {
 		.type = ChangePlayerDir,
-		.optint = clientfd;
+		.optint = clientfd,
 	};
 	action_push(create_player);
 
@@ -140,9 +140,9 @@ void* handel_client(void* arg)
 
 		Action change_dir = {
 			.type = ChangePlayerDir,
-			.optint = buf[0];
-			.optptr = node_player;
-		}
+			.optint = buf[0],
+			.optptr = node_player,
+		};
 		action_push(change_dir);
 
 		Str environment = get_environment();
@@ -161,8 +161,8 @@ void* handel_client(void* arg)
 
 	Action delete_player = {
 		.type = DeletePlayer,
-		.optptr = node_player;
-	}
+		.optptr = node_player,
+	};
 	action_push(delete_player);
 
 	pthread_exit(NULL);
