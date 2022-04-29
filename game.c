@@ -3,12 +3,27 @@
 
 #include "game.h"
 
+static void player_down();
+static void platform_up();
+static void platform_remove_overflow();
+static void player_go_direction();
+static void adjust_player_position();
+static void calculate_position();
+static void calculate_damage();
+static void check_player_position();
+static int count_player_alive();
+static void set_winner();
+static void new_game();
+static void generate_platform();
+
 static Game game;
 
 void para_init(Parameter* para) {
     para->player_count = 0;
     para->tick = 0;
     para->current_time = 0.0f;
+    para->scalar = 1.0f;
+    str_init(&para->winner);
 }
 
 void game_init(void) {
@@ -59,6 +74,9 @@ void handle_actions(void) {
             case DeletePlatform: {
                 delete_platform(&game.ll_platform, a.optptr);
             } break;
+            case NewGame: {
+                new_game();
+            } break;
         }
     }
 }
@@ -77,31 +95,31 @@ void update_game(float time) {
     if (game.state == Gaming) {
         platform_up();
     }
-    platform_remove_overflow();
-
     adjust_player_position();
-
+    
     player_go_direction();
     adjust_player_position();
 
     calculate_damage();
 
+    platform_remove_overflow();
     check_player_position();
 
     int alive = count_player_alive();
 
-    if (game.state == Gaming && alive == 1)
-    {
-        found_winner();
+    if (game.state == Gaming && alive == 1) {
+        set_winner();
     }
-    if (alive == 0)
-    {
-        new_game();
+    
+    if (game.state == Gaming && game.para.tick % 40 == 0) {
+        generate_platform();
     }
 
-    if (game.state == Gaming && game.para.tick % 40 == 0)
-    {
-        generate_platform();
+    if (alive == 0) {
+        Action a = {
+            .type = NewGame,
+        };
+        action_push(a);
     }
 }
 
@@ -118,4 +136,142 @@ Str get_environment(void) {
     Str str = game.environment.str;
     pthread_mutex_unlock(&game.environment.mutex);
     return str;
+}
+
+void update_environment(void) {
+    Str str;
+    str_init(&str);
+
+    NodePlayer* player = game.ll_player.head;
+    while (player) {
+        
+        player = player->next;
+    }
+}
+
+static void player_down() {
+    NodePlayer* tmp = game.ll_player.head;
+    while (tmp) {
+        tmp->p.rect.y += game.para.scalar * 1.0f;
+        tmp = tmp->next;
+    }
+}
+static void platform_up() {
+    NodePlatform* tmp = game.ll_platform.head;
+    while (tmp) {
+        tmp->p.rect.y -= game.para.scalar * 1.0f;
+        tmp = tmp->next;
+    }
+}
+static void platform_remove_overflow() {
+    NodePlatform* tmp = game.ll_platform.head;
+    while (tmp) {
+        if (tmp->p.rect.y < 0) {
+            Action a = {
+                .type = DeletePlatform,
+                .optptr = tmp,
+            };
+            action_push(a);
+        }
+        tmp = tmp->next;
+    }
+}
+static void player_go_direction() {
+    NodePlayer* tmp = game.ll_player.head;
+    while (tmp) {
+        if (tmp->p.dir == Left) {
+            tmp->p.rect.x -= game.para.scalar * 1.0f;
+        }
+        if (tmp->p.dir == Right) {
+            tmp->p.rect.x += game.para.scalar * 1.0f;
+        }
+        tmp = tmp->next;
+    }
+}
+static void adjust_player_position() {
+    NodePlayer* player = game.ll_player.head;
+    while (player) {
+        NodePlatform* platform = game.ll_platform.head;
+        while (platform) {
+            calculate_position(&player->p.rect, &platform->p.rect);
+
+            platform = platform->next;
+        }
+        player = player->next;
+    }
+}
+
+static void calculate_damage() {
+    NodePlayer* player = game.ll_player.head;
+    while (player) {
+        bool damaged = false;
+
+        NodePlatform* platform = game.ll_platform.head;
+        while (platform) {
+            if (platform->p.type == Spike && rect_is_on(&player->p.rect, &platform->p.rect)) {
+                player->p.heart -= game.para.scalar * 1.0f;
+                damaged = true;
+            }
+            platform = platform->next;
+        }
+
+        if (!damaged && player->p.heart < 100 && player->p.heart > 0)
+        {
+            player->p.heart += game.para.scalar * 1.0f;
+        }
+
+        player = player->next;
+    }
+}
+
+static void check_player_position() {
+    NodePlayer* player = game.ll_player.head;
+    while (player) {
+        if (player->p.rect.y >= 900) {
+            player->p.heart = 0;
+        }
+        player = player->next;
+    }
+}
+static int count_player_alive() {
+    int count = 0;
+    NodePlayer* player = game.ll_player.head;
+    while (player) {
+        if (player->p.heart > 0) count++;
+        player = player->next;
+    }
+    return count;
+}
+
+static void set_winner() {
+    NodePlayer* player = game.ll_player.head;
+    while (player) {
+        if (player->p.heart > 0) {
+            game.para.winner = player->p.name;
+            break;
+        }
+        player = player->next;
+    }
+}
+
+static void new_game() {
+    game.state = Starting;
+    NodePlatform* platform = game.ll_platform.head;
+    while (platform) {
+        Action a = {
+            .type = DeletePlatform,
+            .optptr = platform,
+        };
+        action_push(a);
+
+        platform = platform->next;
+    }
+}
+
+static void generate_platform() {
+    Action a = {
+        .type = CreatePlatform,
+        .optint = (int)Normal,
+    };
+    action_push(a);
 }
