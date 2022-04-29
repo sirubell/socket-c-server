@@ -24,7 +24,7 @@
 void* get_in_addr(struct sockaddr *sa);
 void* _start_server(void* arg);
 void* handel_client(void* arg);
-void send_str(int socket, Str str);
+bool send_str(int socket, Str str);
 
 void start_server(void)
 {
@@ -188,7 +188,7 @@ void *get_in_addr(struct sockaddr *sa)
 	return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-void send_str(int socket, Str str)
+bool send_str(int socket, Str str)
 {
 	int total = 0, nbytes;
 	while (total < str.len) {
