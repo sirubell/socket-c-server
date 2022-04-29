@@ -5,7 +5,6 @@
 #include <time.h>
 #include <sys/time.h>
 #include <signal.h>
-#include <random.h>
 
 #include "server.h"
 #include "game.h"
@@ -15,7 +14,7 @@ int max(int a, int b);
 int main(void)
 {
     srand(time(NULL));
-    
+
     struct timeval stop, start;
     const int frame_time = (1.0f / 60) * 1000 * 1000;
     int dt = 0;
