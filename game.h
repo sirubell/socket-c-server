@@ -16,6 +16,8 @@ typedef struct {
     int player_count;
     int tick;
     float current_time;
+    float scalar;
+    Str winner;
 } Parameter;
 
 typedef struct {
@@ -33,6 +35,8 @@ void handle_actions(void);
 void update_game(float time);
 void action_push(Action a);
 NodePlayer* query_has(int fd);
+
 Str get_environment(void);
+void update_environment(void);
 
 #endif
