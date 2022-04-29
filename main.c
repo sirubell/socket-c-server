@@ -25,6 +25,8 @@ int main(void)
         {
             float time = (float)max(dt, frame_time) / 1000 / 1000;
             update_game(time);
+            update_environment();
+            
             handle_actions();
         }
         gettimeofday(&stop, NULL);
