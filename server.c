@@ -24,6 +24,7 @@
 void* get_in_addr(struct sockaddr *sa);
 void* _start_server(void* arg);
 void* handel_client(void* arg);
+void send_str(int socket, Str str);
 
 void start_server(void)
 {
@@ -158,10 +159,11 @@ void* handel_client(void* arg)
 		str_cat_cstr(&str, "\n");
 		str_cat(&str, &environment);
 
-		printf("server: send:\nlen: %d\n%.*s\n", (int)str.len, (int)str.len, str.s);
-		if ((nbytes = send(clientfd, str.s, str.len, 0)) < 0) {
+		printf("server: send: %.*s\n", (int)str.len, str.s);
+		if (!send_str(clientfd, str)) {
 			break;
 		}
+		
 	}
 
 	if (node_player != NULL)
@@ -184,4 +186,16 @@ void *get_in_addr(struct sockaddr *sa)
 	}
 
 	return &(((struct sockaddr_in6*)sa)->sin6_addr);
+}
+
+void send_str(int socket, Str str)
+{
+	int total = 0, nbytes;
+	while (total < str.len) {
+		if ((nbytes = send(socket, str.s + total, str.len - total, 0)) < 0) {
+			return false;
+		}
+		total += nbytes;
+	}
+	return true;
 }
