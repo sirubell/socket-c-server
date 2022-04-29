@@ -69,9 +69,9 @@ Rect player_origin_rect(void)
 {
     return (Rect) {
         .x = 300,
-        .y = 300,
-        .w = 100,
-        .h = 100,
+        .y = 100,
+        .w = 50,
+        .h = 50,
     };
 }
 
