@@ -311,7 +311,7 @@ static void calculate_damage() {
         NodePlatform* platform = game.ll_platform.head;
         while (platform) {
             if (platform->p.type == Spike && rect_is_on(&player->p.rect, &platform->p.rect)) {
-                player->p.heart -= game.para.scalar * 0.05f;
+                player->p.heart -= game.para.scalar * 0.40f;
                 damaged = true;
             }
             platform = platform->next;
@@ -319,7 +319,7 @@ static void calculate_damage() {
 
         if (!damaged && player->p.heart < 100 && player->p.heart > 0)
         {
-            player->p.heart += game.para.scalar * 0.02f;
+            player->p.heart += game.para.scalar * 0.05f;
         }
 
         player = player->next;
