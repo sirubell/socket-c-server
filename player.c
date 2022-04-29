@@ -4,7 +4,7 @@
 
 Dir get_dir(char c)
 {
-    if (c == '1') return Left;
+    if (c == '0') return Left;
     if (c == '2') return Right;
     return NoDir;
 }
