@@ -52,6 +52,7 @@ void handle_actions(void) {
             }
 
             case CreatePlayer: {
+                printf("CreatePlayer\n");
                 game.para.player_counter++;
 
                 Player player = (Player) {
@@ -65,12 +66,15 @@ void handle_actions(void) {
                 create_player(&game.ll_player, player);
             } break;
             case DeletePlayer: {
+                printf("DeletePlayer\n");
                 delete_player(&game.ll_player, a.optptr);
             } break;
             case ChangePlayerDir: {
+                printf("ChangePlayerDir\n");
                 change_player_dir(&game.ll_player, a.optptr, get_dir(a.optint));
             } break;
             case CreatePlatform: {
+                printf("CreatePlatform\n");
                 game.para.platform_counter++;
 
                 Platform platform = {
@@ -82,9 +86,11 @@ void handle_actions(void) {
                 create_platform(&game.ll_platform, platform);
             } break;
             case DeletePlatform: {
+                printf("DeletePlatform\n");
                 delete_platform(&game.ll_platform, a.optptr);
             } break;
             case NewGame: {
+                printf("NewGame\n");
                 new_game();
             } break;
         }
