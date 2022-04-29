@@ -57,6 +57,11 @@ Str to_str_int(int x)
     Str str;
     str_init(&str);
 
+    if (x == 0) {
+        str_cat_char(&str, '0');
+        return str;
+    }
+
     bool neg = (x < 0);
     if (neg) x *= -1;
     
