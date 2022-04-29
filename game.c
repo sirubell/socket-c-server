@@ -22,7 +22,7 @@ void para_init(Parameter* para) {
     para->player_counter = 0;
     para->platform_counter = 0;
     para->tick = 0;
-    para->platform_generation_tick = 100;
+    para->platform_generation_tick = 80;
     para->current_time = 0.0f;
     para->scalar = 1.0f;
     str_init(&para->winner);
