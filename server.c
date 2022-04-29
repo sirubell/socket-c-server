@@ -84,7 +84,7 @@ void* _start_server(void* arg)
 	}
 
     inet_ntop(p->ai_family, get_in_addr(p->ai_addr), s, sizeof(s));
-    printf("server: server socket fd: %d\n", serverfd);
+    printf("server: server socket fd: %d\n", server_socket);
     printf("server: bind to %s\n", s);
 	printf("server: waiting for connections...\n");
 
