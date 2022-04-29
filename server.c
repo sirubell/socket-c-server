@@ -166,6 +166,8 @@ void* handel_client(void* arg)
 	};
 	action_push(delete_player);
 
+	printf("server: %s disconnected\n", s);
+
 	pthread_exit(NULL);
 }
 
