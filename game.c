@@ -95,7 +95,7 @@ void handle_actions(void) {
                         .h = 20,
                     },
                     .name = to_str_int(game.para.platform_counter),
-                    .type = a.optint,
+                    .type = Normal,
                 };
 
                 create_platform(&game.ll_platform, platform);
@@ -367,8 +367,7 @@ static void new_game() {
     }
 
     Action a = {
-        .type = CreatePlatform,
-        .optint = (int)Normal,
+        .type = CreateInitPlatform,
     };
     action_push(a);
 }
