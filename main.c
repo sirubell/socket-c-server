@@ -18,6 +18,7 @@ int main(void)
     int dt = 0;
 
     game_init();
+    handle_actions();
 
     sigaction(SIGPIPE, &(struct sigaction){SIG_IGN}, NULL);
     start_server();
