@@ -18,6 +18,9 @@ void delete_platform(LinkedListPlatform* ll_platform, NodePlatform* node)
 {
     if (node == NULL) return;
 
+    if (ll_platform->head == node)
+        ll_platform->head = node->next;
+
     NodePlatform *front = node->prev;
     NodePlatform *back = node->next;
     if (front) front->next = back;

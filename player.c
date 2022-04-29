@@ -40,6 +40,9 @@ void delete_player(LinkedListPlayer* ll_player, NodePlayer* node)
 {
     if (node == NULL) return;
 
+    if (ll_player->head == node)
+        ll_player->head = node->next;
+
     NodePlayer *front = node->prev;
     NodePlayer *back = node->next;
     if (front) front->next = back;
