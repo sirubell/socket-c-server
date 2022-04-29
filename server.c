@@ -111,12 +111,61 @@ void* _start_server(void* arg)
 	}
 }
 
+#define BUFFER_CAPACITY 1024
+
 void* handel_client(void* arg)
 {
 	int clientfd = *(int*)arg;
 	free(arg);
 
-	assert(false && "handel_client not implemented yet");
+	NodePlayer* node_player = NULL;
+	Action create_player = {
+		.type = ChangePlayerDir,
+		.optint = clientfd;
+	};
+	action_push(create_player);
+
+	char buf[BUFFER_CAPACITY];
+	Str str;
+	int nbytes;
+
+	while (true) {
+		if (nbytes = recv(clientfd, buf, BUFFER_CAPACITY, 0) < 0) {
+			break;
+		}
+
+		if (node_player == NULL) {
+			node_player = query_has(clientfd);
+		}
+
+		Action change_dir = {
+			.type = ChangePlayerDir,
+			.optint = buf[0];
+			.optptr = node_player;
+		}
+		action_push(change_dir);
+
+		Str environment = get_environment();
+
+		str_init(&str);
+		if (node_player != NULL) {
+			str_cat(&str, &node_player->p.name);
+			str_cat_cstr(&str, "\n");
+		}
+		str_cat(&str, &environment);
+
+		if (nbytes = send(clientfd, str.s, str.len, 0) < 0) {
+			break;
+		}
+	}
+
+	Action delete_player = {
+		.type = DeletePlayer,
+		.optptr = node_player;
+	}
+	action_push(delete_player);
+
+	pthread_exit(NULL);
 }
 
 void *get_in_addr(struct sockaddr *sa)
