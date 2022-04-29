@@ -58,6 +58,13 @@ void change_player_dir(LinkedListPlayer* ll_player, NodePlayer* node, Dir dir)
     node->p.dir = dir;
 }
 
+void player_revive(Player* player)
+{
+    player->rect = player_origin_rect();
+    player->heart = 100.0f;
+    player->dir = NoDir;
+}
+
 Rect player_origin_rect(void)
 {
     return (Rect) {
