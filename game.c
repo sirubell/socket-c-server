@@ -313,6 +313,12 @@ static void new_game() {
 
         platform = platform->next;
     }
+
+    Action a = {
+        .type = CreatePlatform,
+        .optint = (int)Normal,
+    };
+    action_push(a);
 }
 
 static void generate_platform() {
