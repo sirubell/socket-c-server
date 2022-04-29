@@ -158,7 +158,7 @@ void* handel_client(void* arg)
 		str_cat_cstr(&str, "\n");
 		str_cat(&str, &environment);
 
-		printf("server: send: %.*s\n", (int)str.len, str.s);
+		// printf("server: send: %.*s\n", (int)str.len, str.s);
 		if ((nbytes = send(clientfd, str.s, str.len, 0)) < 0) {
 			break;
 		}

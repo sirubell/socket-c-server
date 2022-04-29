@@ -23,22 +23,26 @@ int main(void)
     start_server();
 
     while (true) {
+        printf("main: 1\n");
         gettimeofday(&start, NULL);
         {
             float time = (float)max(dt, frame_time) / 1000 / 1000;
             update_game(time);
+            printf("main: 2\n");
             update_environment();
+            printf("main: 3\n");
             
             handle_actions();
+            printf("main: 4\n");
         }
         gettimeofday(&stop, NULL);
         
         // dt is above computing time
         dt = (stop.tv_sec - stop.tv_sec) * 1000 * 1000 + (stop.tv_usec - start.tv_usec);
         if (frame_time > dt) {
+            printf("sleep %d usec\n", frame_time - dt);
             usleep(frame_time - dt);
         }
-        
     }
 
 	return 0;
