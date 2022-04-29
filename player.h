@@ -4,10 +4,19 @@
 #include "rect.h"
 #include "str.h"
 
+typedef enum {
+    NoDir,
+    Left,
+    Right,
+    Up,
+    Down,
+} Dir;
+
 typedef struct {
     Rect rect;
     float heart;
     Str name;
+    Dir dir;
     int fd;
 } Player;
 
@@ -18,11 +27,14 @@ struct NodePlayer{
     NodePlayer* prev;
 };
 
-typedef struct LinkedListPlayer LinkedListPlayer;
-struct LinkedListPlayer{
+typedef struct LinkedListPlayer{
     NodePlayer* head;
-};
+} LinkedListPlayer;
 
+Dir get_dir(char c);
 NodePlayer* _query_has(LinkedListPlayer* ll_player, int fd);
+void create_player(LinkedListPlayer* ll_player, Player player);
+void delete_player(LinkedListPlayer* ll_player, NodePlayer* node);
+void change_player_dir(LinkedListPlayer* ll_player, NodePlayer* node, Dir dir);
 
 #endif
