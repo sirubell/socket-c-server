@@ -8,7 +8,8 @@ void create_platform(LinkedListPlatform* ll_platform, Platform platform)
     node->p = platform;
 
     node->next = ll_platform->head;
-    ll_platform->head->prev = node;
+    if (ll_platform->head != NULL)
+        ll_platform->head->prev = node;
     ll_platform->head = node;
 }
 
