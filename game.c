@@ -244,6 +244,10 @@ static void platform_remove_overflow() {
             };
             action_push(a);
         }
+
+        assert(tmp != tmp->next);
+        printf("platform name: %.*s\n", (int)tmp->p.name.len, tmp->p.name.s);
+
         tmp = tmp->next;
     }
 }
