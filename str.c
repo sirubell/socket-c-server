@@ -75,6 +75,6 @@ void str_reverse(Str* str)
     for (int i = 0; i < str->len / 2; i++) {
         char tmp = str->s[i];
         str->s[i] = str->s[str->len - 1 - i];
-        str->s[str->len - 1 - i] = str->s[i];
+        str->s[str->len - 1 - i] = tmp;
     }
 }
