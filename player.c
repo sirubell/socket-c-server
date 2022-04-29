@@ -30,6 +30,7 @@ void create_player(LinkedListPlayer* ll_player, Player player)
     node->p = player;
 
     node->next = ll_player->head;
+    node->prev = NULL;
     if (ll_player->head != NULL)
         ll_player->head->prev = node;
     ll_player->head = node;
