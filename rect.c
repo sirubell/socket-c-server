@@ -1,5 +1,3 @@
-#include <stdbool.h>
-
 #include "rect.h"
 
 bool rect_collision(Rect* a, Rect* b) 

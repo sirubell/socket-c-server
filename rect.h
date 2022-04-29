@@ -1,6 +1,8 @@
 #ifndef _RECT_H_
 #define _RECT_H_
 
+#include <stdbool.h>
+
 typedef struct {
     float x, y, w, h;
 } Rect;
