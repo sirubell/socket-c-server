@@ -35,7 +35,7 @@ void* _start_server(void* arg)
 {
     (void)arg;
 
-    int serverfd;
+    int server_socket;
 	struct addrinfo hints, *servinfo, *p;
 	char s[INET6_ADDRSTRLEN];
 
@@ -53,19 +53,19 @@ void* _start_server(void* arg)
 
 	// loop through all the results and bind to the first we can
 	for(p = servinfo; p != NULL; p = p->ai_next) {
-		if ((serverfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
+		if ((server_socket = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
 			perror("server: socket");
 			continue;
 		}
 
         int yes = 1;
-		if (setsockopt(serverfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
+		if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
 			perror("server: setsockopt");
 			exit(1);
 		}
 
-		if (bind(serverfd, p->ai_addr, p->ai_addrlen) == -1) {
-			close(serverfd);
+		if (bind(server_socket, p->ai_addr, p->ai_addrlen) == -1) {
+			close(server_socket);
 			perror("server: bind");
 			continue;
 		}
@@ -78,7 +78,7 @@ void* _start_server(void* arg)
 		exit(1);
 	}
 
-	if (listen(serverfd, BACKLOG) == -1) {
+	if (listen(server_socket, BACKLOG) == -1) {
 		perror("server: listen");
 		exit(1);
 	}
@@ -93,8 +93,8 @@ void* _start_server(void* arg)
         struct sockaddr_storage client_addr;
         socklen_t sin_size = sizeof(client_addr);
 
-		int client_fd = accept(serverfd, (struct sockaddr *)&client_addr, &sin_size);
-		if (client_fd == -1) {
+		int client_socket = accept(server_socket, (struct sockaddr *)&client_addr, &sin_size);
+		if (client_socket == -1) {
 			perror("server: accept");
 			continue;
 		}
@@ -106,7 +106,7 @@ void* _start_server(void* arg)
 
         pthread_t client_thread;
 		int* tmp = malloc(sizeof(int));
-		*tmp = client_fd;
+		*tmp = client_socket;
         pthread_create(&client_thread, NULL, handel_client, tmp);
 	}
 }
