@@ -73,8 +73,6 @@ void* _start_server(void* arg)
 		break;
 	}
 
-	freeaddrinfo(servinfo); // all done with this structure
-
 	if (p == NULL)  {
 		fprintf(stderr, "server: failed to bind\n");
 		exit(1);
@@ -88,6 +86,8 @@ void* _start_server(void* arg)
     inet_ntop(p->ai_family, get_in_addr(p->ai_addr), s, sizeof(s));
     printf("server: bind to %s\n", s);
 	printf("server: waiting for connections...\n");
+
+	freeaddrinfo(servinfo); // all done with this structure
 
 	while (true) {
         struct sockaddr_storage client_addr;
