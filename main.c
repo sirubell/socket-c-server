@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
+#include <signal.h>
 
 #include "server.h"
 #include "game.h"
@@ -18,6 +19,7 @@ int main(void)
 
     game_init();
 
+    sigaction(SIGPIPE, &(struct sigaction){SIG_IGN}, NULL);
     start_server();
 
     while (true) {
