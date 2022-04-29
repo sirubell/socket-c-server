@@ -22,7 +22,7 @@ void para_init(Parameter* para) {
     para->player_counter = 0;
     para->platform_counter = 0;
     para->tick = 0;
-    para->platform_generation_tick = 200;
+    para->platform_generation_tick = 100;
     para->current_time = 0.0f;
     para->scalar = 1.0f;
     str_init(&para->winner);
@@ -90,7 +90,7 @@ void handle_actions(void) {
                 Platform platform = {
                     .rect = {
                         .x = 200,
-                        .y = 500,
+                        .y = 700,
                         .w = 200,
                         .h = 20,
                     },
@@ -119,7 +119,12 @@ void update_game(float time) {
 
     if (game.para.current_time >= 20.0f) {
         game.state = Gaming;
+        game.para.current_time = 0.0f;
         str_init(&game.para.winner);
+    }
+
+    if (game.state == Gaming) {
+        game.para.scalar += 0.005;
     }
 
     // printf("update game: 1\n");
@@ -329,7 +334,7 @@ static void calculate_damage() {
 static void check_player_position() {
     NodePlayer* player = game.ll_player.head;
     while (player) {
-        if (player->p.rect.y >= 900) {
+        if (player->p.rect.y <= 0 || player->p.rect.y >= 900) {
             player->p.heart = 0;
         }
         player = player->next;
@@ -360,6 +365,7 @@ static void new_game() {
     game.state = Starting;
     game.para.current_time = 0;
     game.para.tick = 0;
+    game.para.scalar = 1.0f;
 
     NodePlayer* player = game.ll_player.head;
     while (player) {
