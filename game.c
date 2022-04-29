@@ -249,14 +249,14 @@ void update_environment(void) {
 static void player_down() {
     NodePlayer* tmp = game.ll_player.head;
     while (tmp) {
-        tmp->p.rect.y += game.para.scalar * 1.0f;
+        tmp->p.rect.y += game.para.scalar * 3.0f;
         tmp = tmp->next;
     }
 }
 static void platform_up() {
     NodePlatform* tmp = game.ll_platform.head;
     while (tmp) {
-        tmp->p.rect.y -= game.para.scalar * 1.0f;
+        tmp->p.rect.y -= game.para.scalar * 3.0f;
         tmp = tmp->next;
     }
 }
