@@ -19,4 +19,12 @@ typedef struct {
 void str_init(Str* str);
 void str_with_mutex_init(StrWithMutex* x);
 
+void str_cat(Str* str1, Str* str2);
+void str_cat_cstr(Str* str1, const char* str2);
+void str_cat_char(Str* str, const char c);
+
+Str to_str_int(int x);
+
+void str_reverse(Str* str);
+
 #endif
