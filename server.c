@@ -121,7 +121,7 @@ void* handel_client(void* arg)
 
 	NodePlayer* node_player = NULL;
 	Action create_player = {
-		.type = ChangePlayerDir,
+		.type = CreatePlayer,
 		.optint = clientfd,
 	};
 	action_push(create_player);
