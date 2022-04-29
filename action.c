@@ -17,8 +17,8 @@ bool action_queue_has(ActionQueue* aq)
 Action action_queue_pop(ActionQueue* aq)
 {
     int tmp = atomic_fetch_add(&aq->head, 1);
-    Action a = aq->actions[tmp];
-    aq->actions[tmp].type = NoOp;
+    Action a = aq->actions[tmp % NUM_ACTION];
+    aq->actions[tmp % NUM_ACTION].type = NoOp;
 
     return a;
 }
@@ -27,8 +27,8 @@ void action_queue_push(ActionQueue* aq, Action a)
 {
     int tmp = atomic_fetch_add(&aq->tail, 1);
 
-    aq->actions[tmp].optint = a.optint;
-    aq->actions[tmp].optptr = a.optptr;
+    aq->actions[tmp % NUM_ACTION].optint = a.optint;
+    aq->actions[tmp % NUM_ACTION].optptr = a.optptr;
     asm volatile("": : :"memory"); // memory fence
-    aq->actions[tmp].type = a.type;
+    aq->actions[tmp % NUM_ACTION].type = a.type;
 }
