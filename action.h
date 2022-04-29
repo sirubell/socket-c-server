@@ -14,6 +14,8 @@ typedef enum {
     CreatePlatform,
     DeletePlatform,
 
+    NewGame,
+
 } ActionType;
 
 typedef struct {
