@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
 
@@ -164,7 +165,7 @@ void update_game(float time) {
 
         Action a = {
             .type = CreatePlatform,
-            .optint = platform_type;
+            .optint = platform_type,
         };
         action_push(a);
     }
