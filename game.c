@@ -21,6 +21,7 @@ static Game game;
 void para_init(Parameter* para) {
     para->player_count = 0;
     para->tick = 0;
+    para->platform_generation_tick = 40;
     para->current_time = 0.0f;
     para->scalar = 1.0f;
     str_init(&para->winner);
@@ -111,7 +112,7 @@ void update_game(float time) {
         set_winner();
     }
     
-    if (game.state == Gaming && game.para.tick % 40 == 0) {
+    if (game.state == Gaming && game.para.tick % game.para.platform_generation_tick == 0) {
         generate_platform();
     }
 

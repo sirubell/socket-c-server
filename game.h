@@ -15,6 +15,7 @@ typedef enum {
 typedef struct {
     int player_count;
     int tick;
+    int platform_generation_tick;
     float current_time;
     float scalar;
     Str winner;
