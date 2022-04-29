@@ -17,7 +17,7 @@
 #include "server.h"
 #include "game.h"
 
-#define PORT "15470"  // the port users will be connecting to
+#define PORT "15070"  // the port users will be connecting to
 #define BACKLOG 10	 // how many pending connections queue will hold
 
 // get sockaddr, IPv4 or IPv6:
@@ -43,10 +43,10 @@ void* _start_server(void* arg)
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
     // no need this, because I specify the node
-	// hints.ai_flags = AI_PASSIVE; // use my IP
+	hints.ai_flags = AI_PASSIVE; // use my IP
 
     int rv;
-	if ((rv = getaddrinfo("0.0.0.0", PORT, &hints, &servinfo)) != 0) {
+	if ((rv = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
 		exit(1);
 	}

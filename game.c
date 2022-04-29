@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
 
@@ -82,6 +83,7 @@ void handle_actions(void) {
 }
 
 void update_game(float time) {
+    printf("tick: %d\n", game.para.tick);
     game.para.tick++;
     game.para.current_time += time;
 
