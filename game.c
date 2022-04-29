@@ -19,7 +19,8 @@ static void generate_platform();
 static Game game;
 
 void para_init(Parameter* para) {
-    para->player_count = 0;
+    para->player_counter = 0;
+    para->platform_counter = 0;
     para->tick = 0;
     para->platform_generation_tick = 40;
     para->current_time = 0.0f;
@@ -46,12 +47,12 @@ void handle_actions(void) {
             }
 
             case CreatePlayer: {
-                game.para.player_count++;
+                game.para.player_counter++;
 
                 Player player = (Player) {
                     .rect = player_origin_rect(),
                     .heart = 100.0f,
-                    .name = to_str_int(game.para.player_count),
+                    .name = to_str_int(game.para.player_counter),
                     .dir = NoDir,
                     .fd = a.optint,
                 };
@@ -65,8 +66,11 @@ void handle_actions(void) {
                 change_player_dir(&game.ll_player, a.optptr, get_dir(a.optint));
             } break;
             case CreatePlatform: {
+                game.para.platform_counter++;
+
                 Platform platform = {
                     .rect = platform_random_rect(),
+                    .name = to_str_int(game.para.platform_counter),
                     .type = a.optint,
                 };
 
@@ -140,14 +144,56 @@ Str get_environment(void) {
 }
 
 void update_environment(void) {
-    Str str;
+    bool first;
+    Str str, tmp;
     str_init(&str);
 
+    first = true;
     NodePlayer* player = game.ll_player.head;
     while (player) {
-        
+        if (first) {
+            first = false;
+        } else {
+            str_cat_char(&str, '|');
+        }
+        tmp = to_str_player(&player->p);
+        str_cat(&str, &tmp);
+
         player = player->next;
     }
+    str_cat_char(&str, '\n');
+
+    first = true;
+    NodePlatform* platform = game.ll_platform.head;
+    while (platform) {
+        if (first) {
+            first = false;
+        } else {
+            str_cat_char(&str, '|');
+        }
+        tmp = to_str_player(&platform->p);
+        str_cat(&str, &tmp);
+
+        platform = platform->next;
+    }
+    str_cat_char(&str, '\n');
+
+    tmp = to_str_int((int)(game.para.current_time * 1000));
+    str_cat(&str, &tmp);
+    str_cat_char(&str, '\n');
+
+    if (game.state == Starting) {
+        str_cat_cstr(&str, "Game Start in ");
+        tmp = to_str_int((int)(20.0f - game.para.current_time));
+        str_cat(&str, &tmp);
+        str_cat_char(&str, '\n');
+    }
+
+    str_cat(&str, &game.para.winner);
+
+    pthread_mutex_lock(&game.environment.mutex);
+    game.environment.str = str;
+    pthread_mutex_unlock(&game.environment.mutex);
 }
 
 static void player_down() {

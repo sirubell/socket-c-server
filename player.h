@@ -39,4 +39,6 @@ void change_player_dir(LinkedListPlayer* ll_player, NodePlayer* node, Dir dir);
 
 Rect player_origin_rect(void);
 
+Str to_str_player(Player* player);
+
 #endif

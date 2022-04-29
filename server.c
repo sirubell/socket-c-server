@@ -150,8 +150,8 @@ void* handel_client(void* arg)
 		str_init(&str);
 		if (node_player != NULL) {
 			str_cat(&str, &node_player->p.name);
-			str_cat_cstr(&str, "\n");
 		}
+		str_cat_cstr(&str, "\n");
 		str_cat(&str, &environment);
 
 		if (nbytes = send(clientfd, str.s, str.len, 0) < 0) {

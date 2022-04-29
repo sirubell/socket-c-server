@@ -34,3 +34,38 @@ Rect platform_random_rect(void)
         .h = 20,
     };
 }
+
+Str to_str_platform(Platform* platform)
+{
+    Str str, tmp;
+    str_init(&str);
+
+    tmp = to_str_int((int)platform->rect.x);
+    str_cat(&str, &tmp);
+
+    str_cat_char(&str, ',');
+
+    tmp = to_str_int((int)platform->rect.y);
+    str_cat(&str, &tmp);
+
+    str_cat_char(&str, ',');
+
+    tmp = to_str_int((int)platform->rect.w);
+    str_cat(&str, &tmp);
+
+    str_cat_char(&str, ',');
+
+    tmp = to_str_int((int)platform->rect.h);
+    str_cat(&str, &tmp);
+
+    str_cat_char(&str, ',');
+
+    str_cat(&str, &platform->name);
+
+    str_cat_char(&str, ',');
+
+    tmp = to_str_int((int)platform->type + 1);
+    str_cat(&str, &tmp);
+
+    return str;
+}

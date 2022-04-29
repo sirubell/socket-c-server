@@ -2,6 +2,7 @@
 #define _PLATFORM_H_
 
 #include "rect.h"
+#include "str.h"
 
 typedef enum {
     Normal,
@@ -10,6 +11,7 @@ typedef enum {
 
 typedef struct {
     Rect rect;
+    Str name;
     PlatformType type;
 } Platform;
 
@@ -28,5 +30,7 @@ void create_platform(LinkedListPlatform* ll_platform, Platform platform);
 void delete_platform(LinkedListPlatform* ll_platform, NodePlatform* node);
 
 Rect platform_random_rect(void);
+
+Str to_str_platform(Platform* platform);
 
 #endif

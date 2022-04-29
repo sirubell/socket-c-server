@@ -63,3 +63,38 @@ Rect player_origin_rect(void)
         .h = 100,
     };
 }
+
+Str to_str_player(Player* player)
+{
+    Str str, tmp;
+    str_init(&str);
+
+    tmp = to_str_int((int)player->rect.x);
+    str_cat(&str, &tmp);
+
+    str_cat_char(&str, ',');
+
+    tmp = to_str_int((int)player->rect.y);
+    str_cat(&str, &tmp);
+
+    str_cat_char(&str, ',');
+
+    tmp = to_str_int((int)player->rect.w);
+    str_cat(&str, &tmp);
+
+    str_cat_char(&str, ',');
+
+    tmp = to_str_int((int)player->rect.h);
+    str_cat(&str, &tmp);
+
+    str_cat_char(&str, ',');
+
+    str_cat(&str, &player->name);
+
+    str_cat_char(&str, ',');
+
+    tmp = to_str_int((int)player->heart);
+    str_cat(&str, &tmp);
+
+    return str;
+}

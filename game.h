@@ -13,7 +13,8 @@ typedef enum {
 } GameState;
 
 typedef struct {
-    int player_count;
+    int player_counter;
+    int platform_counter;
     int tick;
     int platform_generation_tick;
     float current_time;
