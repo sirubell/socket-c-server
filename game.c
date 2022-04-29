@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <random.h>
 
 #include "game.h"
 
