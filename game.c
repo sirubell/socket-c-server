@@ -8,7 +8,6 @@ static void platform_up();
 static void platform_remove_overflow();
 static void player_go_direction();
 static void adjust_player_position();
-static void calculate_position();
 static void calculate_damage();
 static void check_player_position();
 static int count_player_alive();
@@ -193,7 +192,7 @@ static void adjust_player_position() {
     while (player) {
         NodePlatform* platform = game.ll_platform.head;
         while (platform) {
-            calculate_position(&player->p.rect, &platform->p.rect);
+            calculate_collision(&player->p.rect, &platform->p.rect);
 
             platform = platform->next;
         }
