@@ -49,7 +49,7 @@ void handle_actions(void) {
                 game.para.player_count++;
 
                 Player player = (Player) {
-                    .rect = rect_origin(),
+                    .rect = player_origin_rect(),
                     .heart = 100.0f,
                     .name = to_str_int(game.para.player_count),
                     .dir = NoDir,
@@ -66,7 +66,7 @@ void handle_actions(void) {
             } break;
             case CreatePlatform: {
                 Platform platform = {
-                    .rect = platform_random(),
+                    .rect = platform_random_rect(),
                     .type = a.optint,
                 };
 

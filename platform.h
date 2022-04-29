@@ -27,6 +27,6 @@ typedef struct {
 void create_platform(LinkedListPlatform* ll_platform, Platform platform);
 void delete_platform(LinkedListPlatform* ll_platform, NodePlatform* node);
 
-Rect platform_random(void);
+Rect platform_random_rect(void);
 
 #endif

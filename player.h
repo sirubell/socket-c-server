@@ -37,4 +37,6 @@ void create_player(LinkedListPlayer* ll_player, Player player);
 void delete_player(LinkedListPlayer* ll_player, NodePlayer* node);
 void change_player_dir(LinkedListPlayer* ll_player, NodePlayer* node, Dir dir);
 
+Rect player_origin_rect(void);
+
 #endif

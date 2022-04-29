@@ -50,3 +50,13 @@ void change_player_dir(LinkedListPlayer* ll_player, NodePlayer* node, Dir dir)
 
     node->p.dir = dir;
 }
+
+Rect player_origin_rect(void)
+{
+    return (Rect) {
+        .x = 300,
+        .y = 300,
+        .w = 100,
+        .h = 100,
+    };
+}

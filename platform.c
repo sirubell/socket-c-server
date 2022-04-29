@@ -24,7 +24,7 @@ void delete_platform(LinkedListPlatform* ll_platform, NodePlatform* node)
     free(node);
 }
 
-Rect platform_random(void)
+Rect platform_random_rect(void)
 {
     return (Rect) {
         .x = 300,
