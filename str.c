@@ -58,6 +58,8 @@ Str to_str_int(int x)
     str_init(&str);
 
     bool neg = (x < 0);
+    if (neg) x *= -1;
+    
     while (x) {
         str_cat_char(&str, '0' + x % 10);
         x /= 10;
