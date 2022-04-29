@@ -26,13 +26,6 @@ void create_player(LinkedListPlayer* ll_player, Player player)
 {
     NodePlayer* node = (NodePlayer*)malloc(sizeof(NodePlayer));
     node->p = player;
-    // node->p = (Player) {
-    //     .rect = rect_origin(),
-    //     .heart = 100.0f,
-    //     .name = name,
-    //     .dir = NoDir,
-    //     .fd = fd,
-    // };
 
     node->next = ll_player->head;
     ll_player->head->prev = node;
