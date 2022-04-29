@@ -308,6 +308,9 @@ static void set_winner() {
 
 static void new_game() {
     game.state = Starting;
+    game.para.current_time = 0;
+    game.para.tick = 0;
+    
     NodePlatform* platform = game.ll_platform.head;
     while (platform) {
         Action a = {
