@@ -35,6 +35,11 @@ void game_init(void) {
     game.state = Starting;
     str_with_mutex_init(&game.environment);
     para_init(&game.para);
+
+    Action a = {
+        .type = NewGame,
+    };
+    action_push(a);
 }
 
 void handle_actions(void) {
