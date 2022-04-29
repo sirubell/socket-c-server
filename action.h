@@ -12,6 +12,7 @@ typedef enum {
     ChangePlayerDir,
 
     CreatePlatform,
+    CreateInitPlatform,
     DeletePlatform,
 
     NewGame,

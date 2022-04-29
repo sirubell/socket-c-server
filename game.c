@@ -57,12 +57,10 @@ void handle_actions(void) {
                 game.para.player_counter++;
 
                 Player player = (Player) {
-                    .rect = player_origin_rect(),
-                    .heart = 100.0f,
                     .name = to_str_int(game.para.player_counter),
-                    .dir = NoDir,
                     .fd = a.optint,
                 };
+                player_revive(&player);
 
                 create_player(&game.ll_player, player);
             } break;
@@ -80,6 +78,22 @@ void handle_actions(void) {
 
                 Platform platform = {
                     .rect = platform_random_rect(),
+                    .name = to_str_int(game.para.platform_counter),
+                    .type = a.optint,
+                };
+
+                create_platform(&game.ll_platform, platform);
+            } break;
+            case CreateInitPlatform: {
+                game.para.platform_counter++;
+
+                Platform platform = {
+                    .rect = {
+                        .x = 200,
+                        .y = 500,
+                        .w = 200,
+                        .h = 20,
+                    },
                     .name = to_str_int(game.para.platform_counter),
                     .type = a.optint,
                 };
@@ -334,6 +348,12 @@ static void new_game() {
     game.state = Starting;
     game.para.current_time = 0;
     game.para.tick = 0;
+
+    NodePlayer* player = game.ll_player.head;
+    while (player) {
+        player_revive(&player->p);
+        player = player->next;
+    }
     
     NodePlatform* platform = game.ll_platform.head;
     while (platform) {
