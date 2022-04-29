@@ -31,11 +31,16 @@ void delete_platform(LinkedListPlatform* ll_platform, NodePlatform* node)
 
 Rect platform_random_rect(void)
 {
+    int w = 100 + rand() % 150;
+    int h = 20;
+    int x = 100 + rand() % 400;
+    int y = 900;
+    
     return (Rect) {
-        .x = 300,
-        .y = 900,
-        .w = 100,
-        .h = 20,
+        .x = x - w / 2,
+        .y = y,
+        .w = w,
+        .h = h,
     };
 }
 

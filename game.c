@@ -14,7 +14,6 @@ static void check_player_position();
 static int count_player_alive();
 static void set_winner();
 static void new_game();
-static void generate_platform();
 
 static Game game;
 
@@ -22,7 +21,7 @@ void para_init(Parameter* para) {
     para->player_counter = 0;
     para->platform_counter = 0;
     para->tick = 0;
-    para->platform_generation_tick = 40;
+    para->platform_generation_tick = 200;
     para->current_time = 0.0f;
     para->scalar = 1.0f;
     str_init(&para->winner);
@@ -155,7 +154,19 @@ void update_game(float time) {
     // printf("update game: 11\n");
     
     if (game.state == Gaming && game.para.tick % game.para.platform_generation_tick == 0) {
-        generate_platform();
+        int platform_type;
+        int random_val = rand() % 10;
+        if (random_val < 3) {
+            platform_type = (int)Spike;
+        } else {
+            platform_type = (int)Normal;
+        }
+
+        Action a = {
+            .type = CreatePlatform,
+            .optint = platform_type;
+        };
+        action_push(a);
     }
     // printf("update game: 12\n");
 
@@ -368,14 +379,6 @@ static void new_game() {
 
     Action a = {
         .type = CreateInitPlatform,
-    };
-    action_push(a);
-}
-
-static void generate_platform() {
-    Action a = {
-        .type = CreatePlatform,
-        .optint = (int)Normal,
     };
     action_push(a);
 }
