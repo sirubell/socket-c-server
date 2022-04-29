@@ -11,7 +11,7 @@ void action_queue_init(ActionQueue* aq)
 
 bool action_queue_has(ActionQueue* aq)
 {
-    return (aq->head % NUM_ACTION != aq->tail % NUM_ACTION) && (aq->actions[aq->head].type != NoOp);
+    return (aq->head % NUM_ACTION != aq->tail % NUM_ACTION) && (aq->actions[aq->head % NUM_ACTIOn].type != NoOp);
 }
 
 Action action_queue_pop(ActionQueue* aq)
