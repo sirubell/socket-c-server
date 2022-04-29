@@ -31,6 +31,7 @@ int main(void)
         }
         gettimeofday(&stop, NULL);
         
+        // dt is above computing time
         dt = (stop.tv_sec - stop.tv_sec) * 1000 * 1000 + (stop.tv_usec - start.tv_usec);
         if (frame_time > dt) {
             usleep(frame_time - dt);
