@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "player.h"
 
 Dir get_dir(char c)
