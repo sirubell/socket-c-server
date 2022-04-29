@@ -14,7 +14,8 @@ typedef enum {
 
 typedef struct {
     int player_count;
-    
+    int tick;
+    float current_time;
 } Parameter;
 
 typedef struct {
@@ -26,6 +27,7 @@ typedef struct {
     Parameter para;
 } Game;
 
+void para_init(Parameter* para);
 void game_init(void);
 void handle_actions(void);
 void update_game(float time);

@@ -5,13 +5,19 @@
 
 static Game game;
 
+void para_init(Parameter* para) {
+    para->player_count = 0;
+    para->tick = 0;
+    para->current_time = 0.0f;
+}
+
 void game_init(void) {
     action_queue_init(&game.aq);
     game.ll_player.head = NULL;
     game.ll_platform.head = NULL;
     game.state = Starting;
     str_with_mutex_init(&game.environment);
-    game.para.player_count = 0;
+    para_init(&game.para);
 }
 
 void handle_actions(void) {
@@ -58,7 +64,45 @@ void handle_actions(void) {
 }
 
 void update_game(float time) {
-    assert(false && "update_game is not implemented yet");
+    game.para.tick++;
+    game.para.current_time += time;
+
+    if (game.para.current_time >= 20.0f)
+    {
+        game.state = Gaming;
+        // winner = String.Empty;
+    }
+
+    player_down();
+    if (game.state == Gaming) {
+        platform_up();
+    }
+    platform_remove_overflow();
+
+    adjust_player_position();
+
+    player_go_direction();
+    adjust_player_position();
+
+    calculate_damage();
+
+    check_player_position();
+
+    int alive = count_player_alive();
+
+    if (game.state == Gaming && alive == 1)
+    {
+        found_winner();
+    }
+    if (alive == 0)
+    {
+        new_game();
+    }
+
+    if (game.state == Gaming && game.para.tick % 40 == 0)
+    {
+        generate_platform();
+    }
 }
 
 void action_push(Action a) {
