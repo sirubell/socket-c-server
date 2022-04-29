@@ -43,6 +43,7 @@ void game_init(void) {
 }
 
 void handle_actions(void) {
+    printf("action queue: %d %d\n", game.aq.head, game.aq.tail);
     while (action_queue_has(&game.aq)) {
         Action a = action_queue_pop(&game.aq);
 
@@ -107,42 +108,42 @@ void update_game(float time) {
         str_init(&game.para.winner);
     }
 
-    printf("update game: 1\n");
+    // printf("update game: 1\n");
     player_down();
-    printf("update game: 2\n");
+    // printf("update game: 2\n");
     if (game.state == Gaming) {
         platform_up();
     }
-    printf("update game: 3\n");
+    // printf("update game: 3\n");
     adjust_player_position();
-    printf("update game: 4\n");
+    // printf("update game: 4\n");
     
     player_go_direction();
-    printf("update game: 5\n");
+    // printf("update game: 5\n");
     adjust_player_position();
-    printf("update game: 6\n");
+    // printf("update game: 6\n");
 
 
     calculate_damage();
-    printf("update game: 7\n");
+    // printf("update game: 7\n");
 
     platform_remove_overflow();
-    printf("update game: 8\n");
+    // printf("update game: 8\n");
     check_player_position();
-    printf("update game: 9\n");
+    // printf("update game: 9\n");
 
     int alive = count_player_alive();
-    printf("update game: 10\n");
+    // printf("update game: 10\n");
 
     if (game.state == Gaming && alive == 1) {
         set_winner();
     }
-    printf("update game: 11\n");
+    // printf("update game: 11\n");
     
     if (game.state == Gaming && game.para.tick % game.para.platform_generation_tick == 0) {
         generate_platform();
     }
-    printf("update game: 12\n");
+    // printf("update game: 12\n");
 
     if (alive == 0) {
         Action a = {
