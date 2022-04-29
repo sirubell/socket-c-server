@@ -171,7 +171,7 @@ void update_environment(void) {
         } else {
             str_cat_char(&str, '|');
         }
-        tmp = to_str_player(&platform->p);
+        tmp = to_str_platform(&platform->p);
         str_cat(&str, &tmp);
 
         platform = platform->next;
