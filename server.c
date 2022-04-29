@@ -137,6 +137,9 @@ void* handel_client(void* arg)
 
 		if (node_player == NULL) {
 			node_player = query_has(clientfd);
+			if (node_player != NULL) {
+				printf("server: player: %.*s joined the game\n", node_player->p.name.len, node_player->name.s);
+			}
 		}
 
 		Action change_dir = {
@@ -160,13 +163,15 @@ void* handel_client(void* arg)
 		}
 	}
 
+	if (node_player != NULL)
+		printf("server: player: %.*s disconnected\n", node_player->p.name.len, node_player->name.s);
+
 	Action delete_player = {
 		.type = DeletePlayer,
 		.optptr = node_player,
 	};
 	action_push(delete_player);
 
-	printf("server: %s disconnected\n", s);
 
 	pthread_exit(NULL);
 }
