@@ -43,7 +43,7 @@ void game_init(void) {
 }
 
 void handle_actions(void) {
-    printf("action queue: %d %d\n", game.aq.head, game.aq.tail);
+    // printf("action queue: %d %d\n", game.aq.head, game.aq.tail);
     while (action_queue_has(&game.aq)) {
         Action a = action_queue_pop(&game.aq);
 
@@ -53,7 +53,7 @@ void handle_actions(void) {
             }
 
             case CreatePlayer: {
-                printf("CreatePlayer\n");
+                // printf("CreatePlayer\n");
                 game.para.player_counter++;
 
                 Player player = (Player) {
@@ -65,15 +65,15 @@ void handle_actions(void) {
                 create_player(&game.ll_player, player);
             } break;
             case DeletePlayer: {
-                printf("DeletePlayer\n");
+                // printf("DeletePlayer\n");
                 delete_player(&game.ll_player, a.optptr);
             } break;
             case ChangePlayerDir: {
-                printf("ChangePlayerDir\n");
+                // printf("ChangePlayerDir\n");
                 change_player_dir(&game.ll_player, a.optptr, get_dir(a.optint));
             } break;
             case CreatePlatform: {
-                printf("CreatePlatform\n");
+                // printf("CreatePlatform\n");
                 game.para.platform_counter++;
 
                 Platform platform = {
@@ -101,11 +101,11 @@ void handle_actions(void) {
                 create_platform(&game.ll_platform, platform);
             } break;
             case DeletePlatform: {
-                printf("DeletePlatform\n");
+                // printf("DeletePlatform\n");
                 delete_platform(&game.ll_platform, a.optptr);
             } break;
             case NewGame: {
-                printf("NewGame\n");
+                // printf("NewGame\n");
                 new_game();
             } break;
         }
@@ -261,7 +261,7 @@ static void platform_remove_overflow() {
         }
 
         assert(tmp != tmp->next);
-        printf("platform name: %.*s\n", (int)tmp->p.name.len, tmp->p.name.s);
+        // printf("platform name: %.*s\n", (int)tmp->p.name.len, tmp->p.name.s);
 
         tmp = tmp->next;
     }
