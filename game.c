@@ -235,16 +235,15 @@ void update_environment(void) {
     }
     str_cat_char(&str, '\n');
 
-    tmp = to_str_int((int)(game.para.current_time * 1000));
-    str_cat(&str, &tmp);
-    str_cat_char(&str, '\n');
-
     if (game.state == Starting) {
-        str_cat_cstr(&str, "Game Start in ");
+        str_cat_cstr(&str, "starting|");
         tmp = to_str_int((int)(20.0f - game.para.current_time));
-        str_cat(&str, &tmp);
-        str_cat_char(&str, '\n');
+    } else {
+        str_cat_cstr(&str, "gaming|");
+        tmp = to_str_int((int)(game.para.current_time * 1000));
     }
+    str_cat(&str, &tmp);
+    str_cat_char(&str, '|');
 
     str_cat(&str, &game.para.winner);
 
