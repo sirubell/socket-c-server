@@ -243,7 +243,7 @@ void update_environment(void) {
         tmp = to_str_int((int)(game.para.current_time * 1000));
     }
     str_cat(&str, &tmp);
-    str_cat(&str, '|');
+    str_cat_char(&str, '|');
 
     str_cat(&str, &game.para.winner);
 
