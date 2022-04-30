@@ -29,6 +29,8 @@ void create_player(LinkedListPlayer* ll_player, Player player)
     NodePlayer* node = (NodePlayer*)malloc(sizeof(NodePlayer));
     node->p = player;
 
+    printf("server: player: %.*s joined the game\n", (int)node->p.name.len, node->p.name.s);
+
     node->next = ll_player->head;
     node->prev = NULL;
     if (ll_player->head != NULL)
@@ -39,6 +41,8 @@ void create_player(LinkedListPlayer* ll_player, Player player)
 void delete_player(LinkedListPlayer* ll_player, NodePlayer* node)
 {
     if (node == NULL) return;
+
+    printf("server: player: %.*s disconnected\n", (int)node->p.name.len, node->p.name.s);
 
     if (ll_player->head == node)
         ll_player->head = node->next;
