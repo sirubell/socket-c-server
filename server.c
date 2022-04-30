@@ -131,7 +131,7 @@ void* handel_client(void* arg)
 	int nbytes;
 
 	while (true) {
-		if ((nbytes = recv(clientfd, buf, BUFFER_CAPACITY, 0)) < 0) {
+		if ((nbytes = recv(clientfd, buf, BUFFER_CAPACITY, 0)) <= 0) {
 			break;
 		}
 
@@ -160,6 +160,8 @@ void* handel_client(void* arg)
 			break;
 		}
 	}
+
+	close(clientfd);
 
 	Action delete_player = {
 		.type = DeletePlayer,
