@@ -19,6 +19,7 @@
 
 #define PORT "15070"  // the port users will be connecting to
 #define BACKLOG 10	 // how many pending connections queue will hold
+#define BUFFER_CAPACITY 1024
 
 // get sockaddr, IPv4 or IPv6:
 void* get_in_addr(struct sockaddr *sa);
@@ -90,87 +91,92 @@ void* _start_server(void* arg)
 
 	freeaddrinfo(servinfo); // all done with this structure
 
-	while (true) {
-        struct sockaddr_storage client_addr;
-        socklen_t sin_size = sizeof(client_addr);
-
-		int client_socket = accept(server_socket, (struct sockaddr *)&client_addr, &sin_size);
-		if (client_socket == -1) {
-			perror("server: accept");
-			continue;
-		}
-
-		inet_ntop(client_addr.ss_family,
-			get_in_addr((struct sockaddr *)&client_addr),
-			s, sizeof(s));
-		printf("server: got connection from %s\n", s);
-
-        pthread_t client_thread;
-		int* tmp = malloc(sizeof(int));
-		*tmp = client_socket;
-        pthread_create(&client_thread, NULL, handel_client, tmp);
-	}
-}
-
-#define BUFFER_CAPACITY 1024
-
-void* handel_client(void* arg)
-{
-	int clientfd = *(int*)arg;
-	free(arg);
-
-	NodePlayer* node_player = NULL;
-	Action create_player = {
-		.type = CreatePlayer,
-		.optint = clientfd,
-	};
-	action_push(create_player);
-
-	char buf[BUFFER_CAPACITY];
-	Str str;
-	int nbytes;
+    fd_set master;
+    fd_set read_fds;
+    FD_ZERO(&master);
+    FD_ZERO(&read_fds);
+    FD_SET(server_socket, &master);
+    int fdmax = server_socket;
 
 	while (true) {
-		if ((nbytes = recv(clientfd, buf, BUFFER_CAPACITY, 0)) <= 0) {
-			break;
-		}
+        read_fds = master;
+        if (select(fdmax+1, &read_fds, NULL, NULL, NULL) == -1) {
+            perror("select");
+            exit(4);
+        }
 
-		if (node_player == NULL) {
-			node_player = query_has(clientfd);
-		}
+        for (int i = 0; i <= fdmax; i++) {
+            if (!FD_ISSET(i, &read_fds)) {
+                continue;
+            }
 
-		Action change_dir = {
-			.type = ChangePlayerDir,
-			.optint = buf[0],
-			.optptr = node_player,
-		};
-		action_push(change_dir);
+            if (i == server_socket) {
+                // handle new connections
+                struct sockaddr_storage client_addr;
+                socklen_t sin_size = sizeof(client_addr);
 
-		Str environment = get_environment();
+                int client_socket = accept(server_socket, (struct sockaddr *)&client_addr, &sin_size);
+                if (client_socket == -1) {
+                    perror("accept");
+                } else {
+                    FD_SET(client_socket, &master);
+                    if (client_socket > fdmax) {
+                        fdmax = client_socket;
+                    }
 
-		str_init(&str);
-		if (node_player != NULL) {
-			str_cat(&str, &node_player->p.name);
-		}
-		str_cat_cstr(&str, "\n");
-		str_cat(&str, &environment);
+                    inet_ntop(client_addr.ss_family,
+                        get_in_addr((struct sockaddr *)&client_addr),
+                        s, sizeof(s));
+                    printf("server: got connection from %s\n", s);
 
-		// printf("server: send: %.*s\n", (int)str.len, str.s);
-		if ((nbytes = send(clientfd, str.s, str.len, 0)) < 0) {
-			break;
-		}
+                    Action create_player = {
+                        .type = CreatePlayer,
+                        .optint = client_socket,
+                    };
+                    action_push(create_player);
+                }
+
+            } else {
+                // handle data from clients
+                char buf[BUFFER_CAPACITY];
+                int nbytes;
+                NodePlayer* player = query_has(i);
+
+                if ((nbytes = recv(i, buf, BUFFER_CAPACITY, 0)) <= 0) {
+                    // connection close or error
+                    close(i);
+                    FD_CLR(i, &master);
+
+                    Action delete_player = {
+                        .type = DeletePlayer,
+                        .optptr = player,
+                    };
+                    action_push(delete_player);
+                } else {
+
+                    Action change_dir = {
+                        .type = ChangePlayerDir,
+                        .optint = buf[0],
+                        .optptr = player,
+                    };
+                    action_push(change_dir);
+
+                    Str str;
+                    str_init(&str);
+                    Str environment = get_environment();
+                    if (player != NULL) {
+                        str_cat(&str, &player->p.name);
+                    }
+                    str_cat_char(&str, '\n');
+                    str_cat(&str, &environment);
+
+                    if ((nbytes = send(i, str.s, str.len, 0)) < 0) {
+                        perror("send");
+                    }
+                }
+            }
+        }
 	}
-
-	close(clientfd);
-
-	Action delete_player = {
-		.type = DeletePlayer,
-		.optptr = node_player,
-	};
-	action_push(delete_player);
-
-
-	pthread_exit(NULL);
 }
 
 void *get_in_addr(struct sockaddr *sa)
