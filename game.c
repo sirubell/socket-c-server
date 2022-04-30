@@ -207,15 +207,17 @@ void update_environment(void) {
     first = true;
     NodePlayer* player = game.ll_player.head;
     while (player) {
-        if (first) {
-            first = false;
-        } else {
-            str_cat_char(&str, '|');
-        }
-        tmp = to_str_player(&player->p);
-        str_cat(&str, &tmp);
+        if (player->p.heart > 0) {
+            if (first) {
+                first = false;
+            } else {
+                str_cat_char(&str, '|');
+            }
+            tmp = to_str_player(&player->p);
+            str_cat(&str, &tmp);
 
-        player = player->next;
+            player = player->next;
+        }
     }
     str_cat_char(&str, '\n');
 
