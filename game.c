@@ -215,9 +215,8 @@ void update_environment(void) {
             }
             tmp = to_str_player(&player->p);
             str_cat(&str, &tmp);
-
-            player = player->next;
         }
+        player = player->next;
     }
     str_cat_char(&str, '\n');
 
