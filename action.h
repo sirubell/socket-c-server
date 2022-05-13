@@ -5,37 +5,37 @@
 #include <stdbool.h>
 
 typedef enum {
-    NoOp = 0,
+  NoOp = 0,
 
-    CreatePlayer,
-    DeletePlayer,
-    ChangePlayerDir,
+  CreatePlayer,
+  DeletePlayer,
+  ChangePlayerDir,
 
-    CreatePlatform,
-    CreateInitPlatform,
-    DeletePlatform,
+  CreatePlatform,
+  CreateInitPlatform,
+  DeletePlatform,
 
-    NewGame,
+  NewGame,
 
 } ActionType;
 
 typedef struct {
-    ActionType type;
-    int optint;
-    void* optptr;
+  ActionType type;
+  int optint;
+  void *optptr;
 } Action;
 
 #define NUM_ACTION 1024
 
 typedef struct {
-    Action actions[NUM_ACTION];
-    atomic_int head;
-    atomic_int tail;
+  Action actions[NUM_ACTION];
+  atomic_int head;
+  atomic_int tail;
 } ActionQueue;
 
-void action_queue_init(ActionQueue* aq);
-bool action_queue_has(ActionQueue* aq);
-Action action_queue_pop(ActionQueue* aq);
-void action_queue_push(ActionQueue* aq, Action a);
+void action_queue_init(ActionQueue *aq);
+bool action_queue_has(ActionQueue *aq);
+Action action_queue_pop(ActionQueue *aq);
+void action_queue_push(ActionQueue *aq, Action a);
 
 #endif
